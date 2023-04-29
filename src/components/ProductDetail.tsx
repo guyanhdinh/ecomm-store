@@ -6,19 +6,11 @@ type ProductParams = {
     id: string;
 }
 
-type Product = {
-    name: string;
-    price: number;
-    brand: string;
-    description: string;
-    imageUrl: string;
-    longDescription: string;
-  }
-
 function ProductDetail() {
     const { id } = useParams<ProductParams>();
     const item = products.find((i) => i.id.toString() === id);
-    const {name, imageUrl, price, description, longDescription} = item<Product>;
+
+    if (!item) return null;
     
     return (
       <>
@@ -26,18 +18,18 @@ function ProductDetail() {
        <Form className="bg-white border-radius-2 p-3 mt-3" style={{borderRadius: "10px"}}>
         <Row lg={2} sm={1}>
           <Col className="text-center">
-           <img src={imageUrl} alt={name} height={400} width={400} />
+           <img src={item.imageUrl} alt={item.name} height={400} width={400} />
           </Col>
           <Col className="p-3">
-           <span className="fs-2 fw-bold">{name}</span>
+           <span className="fs-2 fw-bold">{item.name}</span>
            <span className="d-block text-muted fs-3">
-            {currency.format(price)}
+            {currency.format(item.price)}
            </span>
           </Col>
         </Row>
-         <div className="pt-4 text-center">
-          <h3>{description}</h3>
-          <p>{longDescription}</p>
+         <div className="pt-4 text-left">
+          <h3>{item.description}</h3>
+          <p>{item.longDescription}</p>
         </div>
        </Form>
       </>
